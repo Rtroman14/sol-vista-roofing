@@ -1,0 +1,24 @@
+{
+  "name": "sol-vista-roofing",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@ai-sdk/google": "^2.0.14",
+    "@ai-sdk/openai": "^2.0.48",
+    "ai": "^5.0.48",
+    "airtable": "^0.12.2",
+    "axios": "^1.12.2",
+    "date-fns": "^4.1.0",
+    "dotenv": "^17.2.2",
+    "express": "^5.1.0",
+    "neverbounce": "^5.0.5",
+    "zod": "^4.1.11"
+  }
+}
