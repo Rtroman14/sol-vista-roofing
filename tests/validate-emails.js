@@ -1,7 +1,7 @@
 require("dotenv").config();
 
 const Airtable = require("../src/Airtable");
-const Neverbounce = require("../src/Neverbounce");
+const Neverbounce = require("../src/NeverBounce");
 
 const BASE_ID = "appQnw7GBSDCatAzf";
 const CONTACTS_TABLE = "Contacts";
