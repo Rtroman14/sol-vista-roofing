@@ -8,34 +8,6 @@ const slackNotification = require("../src/slackNotification");
 const { runValidateEmails } = require("../src/jobs/validateEmails");
 const { runUploadContactsToInstantly } = require("../src/jobs/uploadContactsToInstantly");
 
-router.post("/emails/neverbounce/upload", async (req, res) => {
-    const { baseID, recordID } = req.body;
-
-    const record = await Airtable.getRecord(baseID, "Data", recordID);
-
-    const jobID = record["Neverbounce Job"];
-
-    const data = await NeverBounce.jobResults(jobID);
-
-    let emailProspects = _.formatAirtableContacts(data);
-
-    const uploadedEmailContacts = await Airtable.batchUpload(emailProspects, baseID);
-
-    if (!uploadedEmailContacts) {
-        await slackNotification(
-            "Email Uploader",
-            `*Base ID:* ${baseID}\n*Record ID:* ${record.id}\n*Error:* Error when attempting to upload email prospects.`,
-            "#error-alerts"
-        );
-    }
-
-    const result = uploadedEmailContacts ? "Uploaded" : "Error";
-
-    const updatedRecord = await Airtable.updateRecord(baseID, "Data", record.id, { Email: result });
-
-    res.json(updatedRecord);
-});
-
 // Airtable Actions: Run an action against the base
 router.post("/actions/run", async (req, res) => {
     try {
@@ -93,9 +65,19 @@ router.post("/actions/run", async (req, res) => {
                     Status: "Error",
                     Message: msg,
                 });
+                await slackNotification({
+                    username: "Sol Vista - Airtable Actions",
+                    text: `Error in ${actionType}: ${msg}`,
+                    channel: "#errors",
+                });
             }
         });
     } catch (error) {
+        await slackNotification({
+            username: "Sol Vista - Airtable Actions",
+            text: `Server error in /actions/run: ${error.message || "Unknown error"}`,
+            channel: "#errors",
+        });
         return res.status(500).json({ error: error.message || "Server error" });
     }
 });

@@ -1,6 +1,7 @@
 require("dotenv").config();
 
 const axios = require("axios");
+const { convert } = require("html-to-text");
 
 class Helpers {
     filterValidEmails = (results) => {
@@ -269,6 +270,24 @@ class Helpers {
 
         // Return the new array with chunks
         return chunks;
+    };
+
+    htmlToText = (html) => {
+        const text = convert(html, {
+            wordwrap: null,
+            selectors: [
+                { selector: "a", options: { hideLinkHrefIfSameAsText: true } },
+                // { selector: "a", format: "skip" },
+                { selector: "img", format: "skip" },
+            ],
+        })
+            .split("\n")
+            .filter((line) => !line.trim().startsWith(">")) // Remove quoted text
+            .join("\n")
+            .trim()
+            .replace(/\n{2,}/g, "\n\n"); // Replace multiple consecutive newlines with a single newline
+
+        return text;
     };
 }
 

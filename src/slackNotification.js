@@ -2,14 +2,15 @@ require("dotenv").config();
 
 const axios = require("axios");
 
-module.exports = async (username, text, channel) => {
+module.exports = async ({ username, text, channel }) => {
     const channels = [
         {
             text,
             username,
-            icon_emoji: ":warning:",
+            // icon_emoji: ":warning:",
+            icon_emoji: ":email:",
             unfurl_links: true,
-            channel: "#error-alerts",
+            channel: "#errors",
         },
         {
             text,
@@ -18,34 +19,12 @@ module.exports = async (username, text, channel) => {
             unfurl_links: true,
             channel: "#email-notifications",
         },
-        {
-            text: "Error",
-            username,
-            icon_emoji: ":thunder_cloud_and_rain:",
-            unfurl_links: false,
-            channel: "#weather-alerts",
-            blocks: text,
-        },
-        {
-            text,
-            username,
-            icon_emoji: ":moneybag:",
-            unfurl_links: true,
-            channel: "#automationexperts",
-        },
-        {
-            text,
-            username,
-            icon_emoji: ":moneybag:",
-            unfurl_links: true,
-            channel: "#app-testing",
-        },
     ];
 
     const payload = channels.find((el) => el.channel === channel);
 
     try {
-        await axios.post(process.env.SLACK_CHANNELS, payload);
+        await axios.post(process.env.SLACK_WEBHOOK_URL, payload);
     } catch (error) {
         console.log("slackNotification() --", error);
     }

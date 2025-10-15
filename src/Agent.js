@@ -174,7 +174,7 @@ Extract all fields according to the specified schema, maintaining original forma
             const today = format(new Date(), "yyyy-MM-dd");
             const result = await generateObject({
                 model: this.model,
-                temperature: this.temperature,
+                // temperature: this.temperature,
                 schema: z.object({
                     status: z
                         .enum(["Interested", "Not Interested", "Future Follow-Up"])
@@ -194,6 +194,10 @@ You are an expert SDR assistant for a roofing company.
 TASK: Analyze an email conversation between the roofing company and a property decision maker. Classify the lead's intent and whether/when to follow up.
 
 TODAY: ${today}
+
+KYLE CONTEXT:
+- "Kyle Shirley" represents Sol Vista Roofing.
+- Kyle is reaching out to building owners and other key decision makers offering commercial roof services.
 
 Allowed statuses and when to use them:
 - Interested: Clear interest or positive intent (e.g., asking for an inspection, pricing, calling back, meeting). No date.
