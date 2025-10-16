@@ -36,7 +36,7 @@ const formatLeadsForInstantly = (contacts) => {
             const customVariables = sanitize({
                 is_signatory: c["Is Signatory"],
                 street: firstString(c["Primary Street"]),
-                city: firstString(c["Primary city"]),
+                city: firstString(c["Primary City"]),
                 properties_count: c["Properties Count"],
                 title: c.Title,
                 total_building_area: c["Total Building Area"],
